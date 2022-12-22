@@ -1,0 +1,17 @@
+[[package]]
+name = "pytorch"
+version = "1.0.2"
+description = ""
+category = "main"
+optional = false
+python-versions = "*"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.10"
+content-hash = "f54d3ef9c3e7943f2d42a660cad1c9bfcd95f08196c72b9f150fb7d5ce1d16e7"
+
+[metadata.files]
+pytorch = [
+    {file = "pytorch-1.0.2.tar.gz", hash = "sha256:a6915d372c085a02eceebf59d16cbcc18a2693ac3487a53e3cc8be31fee65079"},
+]
