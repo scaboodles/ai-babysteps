@@ -8,6 +8,8 @@ packages = [{include = "ai_babysteps"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+nltk = "^3.8"
+regex = "^2022.10.31"
 
 
 [build-system]
