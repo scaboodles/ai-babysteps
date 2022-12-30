@@ -5,14 +5,14 @@ from html.parser import HTMLParser
 import os
 
 def scrape_and_format():
-    text, title, author, book_num = run()
+    text, title, author, book_num = run() #use random_books run method to get a book
     subjects = get_subject_list(book_num)
 
-    save_file = open(f"./books/{book_num}.txt",'w+')
+    save_file = open(f"./books/{book_num}.txt",'w+') #this will write text to a file and will overwrite if that file already exists
     save_file.write(text)
     save_file.close() #data point has refers to text file by path
 
-    data_point = {'text' : f"./books/{book_num}", 'subjects' : subjects, 'title' : title, 'author' : author}
+    data_point = {'text' : f"./books/{book_num}", 'subjects' : subjects, 'title' : title, 'author' : author} #compose data dict
     return book_num, data_point #scrape and format will return tuple of dictionary and book id
 
 class MLStripper(HTMLParser): #class to strip html tags from curl request
