@@ -8,9 +8,9 @@ def scrape_and_format():
     text, title, author, book_num = run() #use random_books run method to get a book
     subjects = get_subject_list(book_num)
 
-    save_file = open(f"./books/{book_num}.txt",'w+') #this will write text to a file and will overwrite if that file already exists
-    save_file.write(text)
-    save_file.close() #data point has refers to text file by path
+    #save_file = open(f"./books/{book_num}.txt",'w+') #this will write text to a file and will overwrite if that file already exists
+    #save_file.write(text)
+    #save_file.close() #data point has refers to text file by path
 
     data_point = {'text' : f"./books/{book_num}", 'subjects' : subjects, 'title' : title, 'author' : author} #compose data dict
     return book_num, data_point #scrape and format will return tuple of dictionary and book id
@@ -41,13 +41,15 @@ def clean_page(txt): #format data neatly to scrape from
 
 def data_curl(num): #get web page to scrape from
     web_pg = os.popen(f"curl https://www.gutenberg.org/ebooks/{num}").read()
-    return clean_page(web_pg)
+    if isinstance(web_pg, bytes):  
+        web_pg = web_pg.decode('utf-8')
+    return web_pg
 
 def scrape_subjects(stripped): #tie it all together and return subjects
     subjects = []
     for i in range(len(stripped)):
         if stripped[i].lower() == 'subject':
-            subjects.append(stripped[i+1].lower())
+            subjects.append(stripped[i+1].lower().strip())
 
     #split up genre from sub-genres (denoted by -- on proj. gutenberg)
     joined = "--".join(subjects)
@@ -58,7 +60,3 @@ def scrape_subjects(stripped): #tie it all together and return subjects
 
 def get_subject_list(book_num):
     return scrape_subjects(clean_page(data_curl(book_num))) #quick one line method composition
-
-#def test():
-#    txt = os.popen(f"curl https://www.gutenberg.org/ebooks/2701").read() #curl to download plain text book
-#    clean = clean_page(txt)

@@ -17,8 +17,7 @@ def find_good_book():
     find_lang = r"(?<=Language: ).*"
 
     while True:
-        book_number = random.randint(11, 49987) #11 is the first non janky book, 49987 is the last
-        text = get_book(book_number)
+        book_number, text = get_book()
 
         title_match = re.search(find_title, text) #regex to find title, author, and header
         author_match = re.search(find_auth, text)
@@ -29,6 +28,16 @@ def find_good_book():
             if lang.group() == "English":
                 return text[(header_match.span()[1]):],title_match.group(),author_match.group(),book_number
 
-def get_book(num):
-    txt = os.popen(f"curl https://www.gutenberg.org/cache/epub/{num}/pg{num}.txt").read() #curl to download plain text book
-    return txt
+def get_book():
+    num = random.randint(11, 49987) #11 is the first non janky book, 49987 is the last
+    try:
+        txt = os.popen(f"curl https://www.gutenberg.org/cache/epub/{num}/pg{num}.txt").read() #curl to download plain text book
+        return num, txt
+    except:
+        try:
+            print(f"decode error for book {num}, trying alternative url")
+            txt = os.popen(f"curl https://www.gutenberg.org/cache/epub/{num}/{num}-0.txt").read() #curl to download plain text book
+            return num, txt
+        except:
+            print(f"failed curl for book {num}, trying different book")
+            return get_book()
