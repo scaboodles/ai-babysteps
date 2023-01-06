@@ -40,3 +40,4 @@ data = data[["sentences", "Positive", "Negative", "Neutral"]]
 print(data.head())
 total_sum = len(data)
 print("Positive: " + str(data["Positive"].sum()/total_sum), "Negative: " +str(data["Negative"].sum()/total_sum), "Neutral: " +str(data["Neutral"].sum()/total_sum))
+print(data.max(axis=1))
