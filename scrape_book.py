@@ -49,11 +49,14 @@ def scrape_subjects(stripped): #tie it all together and return subjects
     subjects = []
     for i in range(len(stripped)):
         if stripped[i].lower() == 'subject':
-            subjects.append(stripped[i+1].lower().strip())
+            subjects.append(stripped[i+1].lower())
 
     #split up genre from sub-genres (denoted by -- on proj. gutenberg)
     joined = "--".join(subjects)
     subjects = joined.split('--')
+    
+    for i in range(len(subjects)):
+        subjects[i] = subjects[i].strip()
 
     make_set = set(subjects) #make into a set to prevent dupes
     return list(make_set) #back into list to make it easier to work with
