@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from random_book import run 
+from random_book import run, find_good_by_num
+from clean import clean
 from io import StringIO
 from html.parser import HTMLParser
 import os
@@ -14,6 +15,20 @@ def scrape_and_format():
 
     data_point = {'text' : f"./books/{book_num}", 'subjects' : subjects, 'title' : title, 'author' : author} #compose data dict
     return book_num, data_point #scrape and format will return tuple of dictionary and book id
+
+def download_all():
+    for i in range(11,14):
+        contain = find_good_by_num(i)
+        if not contain == -1:
+            text, title, author = contain
+        else:
+            continue
+        subjects = get_subject_list(i)
+
+        save_file = open(f"./books/{i}.txt",'w+') #this will write text to a file and will overwrite if that file already exists
+        save_file.write(f"{author}|{title}|{subjects}\n")
+        save_file.write(clean(text))
+        save_file.close() #data point has refers to text file by path
 
 class MLStripper(HTMLParser): #class to strip html tags from curl request
     def __init__(self):
