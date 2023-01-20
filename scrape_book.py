@@ -17,7 +17,7 @@ def scrape_and_format():
     return book_num, data_point #scrape and format will return tuple of dictionary and book id
 
 def download_all():
-    for i in range(11,14):
+    for i in range(11,500):
         contain = find_good_by_num(i)
         if not contain == -1:
             text, title, author = contain
